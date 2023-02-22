@@ -1,0 +1,50 @@
+start with : npm run dev
+
+
+-------------create a user---------------
+http://localhost:5000/api/auth/register
+
+----request
+{
+    "firstName":"",
+    "lastName":"",
+    "email":"",
+    "username":"",
+    "password":""
+}
+
+
+-------------LOGIN A USER---------------
+http://localhost:5000/api/auth/login
+
+----request
+{
+  "firstName": "isiah",
+  "lastName": "doe",
+  "email": "paul@gmail.com",
+  "username": "op1",
+  "password": "$2b$10$wjJDR1o18q5.JrPkDMbS0ufVbQ.Q.ycL9ggyqfMgc1YgFUQO0RAyO",
+  "id": 8
+}
+
+---response
+{
+    token
+}
+
+
+
+-------------FIND A USER---------------
+---request
+http://localhost:5000/api/auth/<user-Id>
+
+---response
+
+{
+  "id": 8,
+  "firstName": "isi ah",
+  "lastName": "doe",
+  "email": "paul@gmail.com",
+  "username": "op1",
+  "password": "$2b$10$wjJDR1o18q5.JrPkDMbS0ufVbQ.Q.ycL9ggyqfMgc1YgFUQO0RAyO"
+}
