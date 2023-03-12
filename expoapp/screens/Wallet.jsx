@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import Ionicons from "@expo/vector-icons/Ionicons";
 
@@ -12,22 +12,46 @@ import {
   Octicons,
   SimpleLineIcons,
 } from "@expo/vector-icons";
+import Header from '../components/Header';
+import { useSelector } from 'react-redux';
 
 const Wallet = () => {
+  const user = useSelector((state)=>state.user)
   return (
-    <View>
-          <View className="flex flex-row px-3 justify-between items-center bg-gray-200  w-full h-[70px] mt-10">
-          <Ionicons name="person" size={40} color="black" />
-          <View>
-            <Text className="text-lg text-black text-center font-semibold">
-              Hello Paul
-            </Text>
-            <Text className="text-lg text-black">Use your wallet to book therapy</Text>
-          </View>
-          <Ionicons name="notifications" size={32} color="black" />
-        </View>
+    <View style={styles.mainContainer}>
+      <Header
+      firstName={user.firstName}
+      />
     </View>
   )
 }
+
+
+const styles = StyleSheet.create({
+  mainContainer:{
+    display:'flex',
+    flex:1,
+    marginTop:30
+  },
+
+  topSession:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-evenly',
+    alignItems:'center',
+    height:160
+  },
+  session:{
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
+    height:120,
+    width:170,
+    backgroundColor:'#11698E',
+    borderRadius:10
+  },
+
+})
 
 export default Wallet

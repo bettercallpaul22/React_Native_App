@@ -1,28 +1,42 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 //  import HomePage from "../../screen/HomePage";
-import { Ionicons,Octicons, Zocial, Fontisto } from "@expo/vector-icons";
+import { Ionicons, Octicons, Zocial, Fontisto } from "@expo/vector-icons";
 import HomePage from "../../screens/HomePage";
 import Register from "../../screens/Register";
 import Login from "../../screens/Login";
 import Wallet from "../../screens/Wallet";
 import Profile from "../../screens/Profile";
-
-
+import { bounce } from "react-native/Libraries/Animated/Easing";
+import { Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-    
+      tabBarOptions={{
+        activeTintColor: "white",
+        inactiveTintColor: "white",
+        showLabel: false,
+        
+      }}
       screenOptions={{
+      
         headerShown: false,
         tabBarShowLabel: true,
         showIcon: true,
+       
+        tabBarStyle: {
+          backgroundColor: "#11698E",
+          height: 65,
+        },
+        tabBarLabelStyle:{
+          fontSize:15,
+          letterSpacing:2
+        }
       }}
     >
       <Tab.Screen
-      
         name="HomePage"
         component={HomePage}
         options={{
@@ -31,7 +45,7 @@ const TabNavigator = () => {
               <Ionicons
                 name="home"
                 size={focused ? 35 : 30}
-                color={focused ? "purple" : "black"}
+                color={focused ? "white" : "black"}
               />
             );
           },
@@ -67,7 +81,7 @@ const TabNavigator = () => {
           },
         }}
       /> */}
-        <Tab.Screen
+      <Tab.Screen
         name="Wallet"
         component={Wallet}
         options={{
@@ -76,7 +90,7 @@ const TabNavigator = () => {
               <Fontisto
                 name="wallet"
                 size={focused ? 35 : 30}
-                color={focused ? "purple" : "black"}
+                color={focused ? "white" : "black"}
               />
             );
           },
@@ -91,13 +105,12 @@ const TabNavigator = () => {
               <Ionicons
                 name="person-circle"
                 size={focused ? 35 : 30}
-                color={focused ? "purple" : "black"}
+                color={focused ? "white" : "black"}
               />
             );
           },
         }}
       />
-    
     </Tab.Navigator>
   );
 };

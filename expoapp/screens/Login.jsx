@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   RefreshControl,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import { useFormik } from "formik";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -16,18 +17,16 @@ import { loadState, logOut, login } from "../features/UserSlice";
 import { useNavigation, Link } from "@react-navigation/native";
 import { useEffect } from "react";
 import { useCallback, useState } from "react";
+import Loading from "../components/Loading";
+import Success from "../components/Success";
+import LoginSuccess from "./LoginSuccess";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigation();
   const user = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   dispatch(loadState());
-  //    navigate.navigate("User");
-  // }, [user.id]);
-
-  const { handleChange, values, handleSubmit, errors, touched, resetForm } = 
+  const { handleChange, values, handleSubmit, errors, touched, resetForm } =
     useFormik({
       initialValues: {
         email: "",
@@ -38,15 +37,13 @@ const Login = () => {
 
   const handlePress = () => {
     dispatch(login(values));
-    console.log(user)
   };
 
   if (user.loginStatus === "success") {
     setTimeout(() => {
       resetForm(user.loginStatus);
       navigate.navigate("HomePageScreen");
-    }, 100);
-   
+    }, 300);
   }
 
   const [refreshing, setRefreshing] = useState(false);
@@ -63,75 +60,156 @@ const Login = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <SafeAreaView className=" flex  items-center justify-center mt-[80px] ">
-        <View className="flex w-full text-center justify-center  mb-10 ">
-          <Text className="text-center text-2xl">Hello Dear!</Text>
-          <Text className="text-center text-2xl">Welcome back</Text>
+      <SafeAreaView style={styles.mainContainer}>
+        <View style={styles.header}>
+          <Text style={{ textAlign: "center", fontSize: 22, letterSpacing: 3 }}>
+            Hello Dear!
+          </Text>
+          <Text style={{ textAlign: "center", fontSize: 24, letterSpacing: 2 }}>
+            Welcome back
+          </Text>
         </View>
         <View>
-          <Text>Email address</Text>
+          <Text style={{ marginTop: 50, letterSpacing: 2 }}>Email address</Text>
           <TextInput
-            className="bg-gray-100 h-[55px] w-[350px] rounded-sm pl-3 text-base mb-7 border-2 border-gray-500 "
+            style={styles.email}
             id="email"
             placeholder="Enter your email address"
             value={values.email}
             onChangeText={handleChange("email")}
+            textContentType="emailAddress"
+            autoCapitalize="none"
+            autoComplete="email"
+            
           />
         </View>
 
-        
         <View>
-          <Text>Password</Text>
+          <Text style={{ marginTop: 10, letterSpacing: 2 }}>Password</Text>
           <TextInput
-            className="bg-slate-100 h-[55px] w-[350px] rounded-sm pl-3 text-base mb-7 border-2 border-gray-500 "
+            style={styles.email}
             id="password"
+            secureTextEntry
             placeholder="Enter your password"
             value={values.password}
             onChangeText={handleChange("password")}
+            
           />
         </View>
 
-         
-
-          <TouchableOpacity
-            onPress={handlePress}
-            className="bg-slate-700 h-[50px] w-[350px] rounded-sm  flex items-center justify-center"
-          >
-            {user.loginStatus === "pending" ? (
-              <ActivityIndicator size="large" />
-            ) : (
-              <Text className="font-semibold text-white  text-2xl ">SUBMIT</Text>
-            )}
-          </TouchableOpacity>
-          {user.loginStatus !== "success" ? (
-            <Text className="text-red-500">{user.loginError}</Text>
-          ) : (
-            <Text className="text-green-800 text-center text-2xl">
-              {user.loginStatus}{" "}
-              <Ionicons name="md-checkmark-circle" size={32} color="green" />
-            </Text>
-          )}
-
-          <Text className="text-red-500  w-[300px] text-center  ">
-            {errors.password}
+        {user.loginStatus !== "success" ? (
+          <Text style={{ color: "red" }}>{user.loginError}</Text>
+        ) : (
+          <Text style={{ color: "green", fontSize: 25, fontWeight: "600" }}>
+            Success
           </Text>
-          <View className=" flex-col justify-center items-center f gap-2  w-[300px]">
-            <Text className='text-base'>not yet register? </Text>
-            <Link to={{ screen: "RegisterScreen" }} className="text-pink-500">
-              <Text className="text-pink-500 font-bold text-lg">Register </Text>
-            </Link>
-            <Text className=" font-bold text-lg">Or </Text>
-          </View>
-          <TouchableOpacity className="flex w-[300px] h-[60px] mt-5 rounded-md flex-row  items-center  justify-evenly bg-slate-700   ">
-          <Ionicons name="logo-google" size={32} color="white" />
-          <Text className="text-center text-white text-xl" >
+        )}
+
+        <TouchableOpacity onPress={handlePress} style={styles.submit}>
+          {user.loginStatus === "pending" ? (
+            <ActivityIndicator size="large" color="white" />
+          ) : (
+            <Text style={{ color: "white", fontSize: 22 }}>SUBMIT</Text>
+          )}
+        </TouchableOpacity>
+
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            width: 300,
+          }}
+        >
+          <Text style={{ color: "black", fontSize: 16, marginBottom: 10 }}>
+            not yet register?{" "}
+          </Text>
+          <Link to={{ screen: "RegisterScreen" }} className="text-pink-500">
+            <Text style={{ color: "red", fontSize: 22, marginBottom: 30 }}>
+              Register{" "}
+            </Text>
+          </Link>
+          <Text style={{ color: "black", fontSize: 16, marginTop: 30 }}>
+            Or{" "}
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.submit}>
+          <Ionicons name="logo-google" size={32} color="#F1DBBF" />
+          <Text style={{ color: "white", fontSize: 22 }}>
             Login with google
           </Text>
         </TouchableOpacity>
-
       </SafeAreaView>
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    marginTop: 60,
+  },
+
+  header: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  gooleSignup: {
+    backgroundColor: "#20262E",
+    display: "flex",
+    height: 60,
+    width: 350,
+    marginTop: 30,
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 5,
+    justifyContent: "space-evenly",
+  },
+  formNames: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: 400,
+    paddingTop: 5,
+  },
+  fistLastName: {
+    width: 160,
+    height: 55,
+    marginBottom: 7,
+    borderWidth: 2.3,
+    borderColor: "#20262E",
+    borderRadius: 2,
+    textAlign: "center",
+    fontSize: 16,
+  },
+  email: {
+    width: 350,
+    height: 55,
+    borderWidth: 2.3,
+    borderColor: "#20262E",
+    borderRadius: 2,
+    fontSize: 20,
+    paddingLeft: 5,
+  },
+  submit: {
+    backgroundColor: "#20262E",
+    display: "flex",
+    height: 60,
+    width: 350,
+
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 5,
+    justifyContent: "space-evenly",
+    marginTop: 20,
+    marginBottom: 10,
+  },
+});
 
 export default Login;

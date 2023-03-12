@@ -9,6 +9,7 @@ import {
   FlatList,
   Animated,
   Dimensions,
+  StyleSheet,
 } from "react-native";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -26,63 +27,54 @@ import { data } from "../data/data";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearLoginStatus, loadState } from "../features/UserSlice";
+import Header from "../components/Header";
+import { useNavigation } from "@react-navigation/native";
 
 export const HomePage = () => {
+  const navigate = useNavigation()
   const dispatch = useDispatch();
- useEffect(()=>{
- dispatch(loadState())
- }, [])
-  const user = useSelector((state)=>state.user)
-
-
-
-
-
+  useEffect(() => {
+    dispatch(loadState());
+  }, []);
+  const user = useSelector((state) => state.user);
 
   return (
-    <View className="flex flex-1 h-[900px] mt-10">
-      <View className="flex flex-row px-3 justify-between items-center bg-gray-200  w-full h-[70px]">
-        <Ionicons name="person" size={40} color="black" />
-        <View>
-          <Text className="text-lg text-black text-center font-semibold">
-            Hello {user.firstName}
-          </Text>
-          <Text className="text-lg text-black">How are you today</Text>
-        </View>
-        <Ionicons name="notifications" size={32} color="black" />
-      </View>
+    <View style={styles.mainContainer}>
+      <Header firstName={user.firstName} />
       <ScrollView>
-        <View className="flex flex-row  justify-evenly    items-center   h-[160px]">
-          <TouchableOpacity className="flex  items-center justify-center bg-slate-700 h-[120px] w-[170px] rounded-[20px] ">
+        <View style={styles.topSession}>
+          <TouchableOpacity style={styles.session}
+           onPress={()=>navigate.navigate('ChatScreen')}
+          >
             <Entypo name="chat" size={50} color="yellow" />
-            <Text className=" text-white text-center">
+            <Text style={{color:'white', textAlign:'center'}}>
               Chat session with your therapist
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex  items-center justify-center bg-slate-700 h-[120px] w-[170px] rounded-[20px] ">
+          <TouchableOpacity style={styles.session}>
             <Octicons name="video" size={50} color="red" />
-            <Text className=" text-white text-center">
+            <Text style={{color:'white', textAlign:'center'}}>
               Video session with your therapist
             </Text>
           </TouchableOpacity>
         </View>
-        <View className="flex flex-row  justify-evenly items-center  h-[160px]">
-          <TouchableOpacity className="flex  items-center justify-center bg-slate-700 h-[120px] w-[170px] rounded-[20px] ">
+        <View style={styles.topSession}>
+          <TouchableOpacity style={styles.session}>
             <MaterialCommunityIcons name="leaf" size={50} color="green" />
-            <Text className=" text-white text-center">Time with nature</Text>
+            <Text style={{color:'white', textAlign:'center'}}>Time with nature</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex  items-center justify-center bg-slate-700 h-[120px] w-[170px] rounded-[20px] ">
+          <TouchableOpacity style={styles.session}>
             <Ionicons name="sad-outline" size={50} color="pink" />
-            <Text className=" text-white text-center">Manage axiety</Text>
+            <Text style={{color:'white', textAlign:'center'}}>Manage axiety</Text>
           </TouchableOpacity>
         </View>
-        <View className="flex flex-row justify-between">
-          <Text className="text-lg font-semibold ml-3">
+        <View style={{display:'flex', flexDirection:'row', justifyContent:'space-between', backgroundColor:'#11698E'}}>
+          <Text style={{color:'white', fontSize:16, letterSpacing:2, marginLeft:10}}>
             Recomended programs
           </Text>
           <TouchableOpacity>
-            <Text className="text-lg font-semibold mr-3">
-              See all <FontAwesome name="th-list" size={24} color="black" />{" "}
+            <Text style={{color:'white', fontSize:18, letterSpacing:2}}>
+              See all <FontAwesome name="th-list" size={24} color="white" />{" "}
             </Text>
           </TouchableOpacity>
         </View>
@@ -105,7 +97,7 @@ export const HomePage = () => {
                   />
                 </TouchableOpacity>
                 <Text className=" text-stone-700 font-semibold text-2xl">
-                  {item.title}
+                  {item.id}
                 </Text>
               </View>
             );
@@ -115,5 +107,32 @@ export const HomePage = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  mainContainer:{
+    display:'flex',
+    flex:1,
+    marginTop:30
+  },
+
+  topSession:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-evenly',
+    alignItems:'center',
+    height:160
+  },
+  session:{
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
+    height:120,
+    width:170,
+    backgroundColor:'#11698E',
+    borderRadius:10
+  },
+
+})
 
 export default HomePage;

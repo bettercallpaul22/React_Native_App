@@ -9,6 +9,9 @@ import TabNavigator from "./src/components/TabNavigator";
 import Register from "./screens/Register";
 import Login from "./screens/Login";
 import SplashScreen from "./components/splashScreen";
+import Welcome from "./components/Welcome";
+import LoginSuccess from "./screens/LoginSuccess";
+import ChatScreen from "./screens/ChatScreen";
 
 
 const store = configureStore({
@@ -28,14 +31,24 @@ export default function App() {
           <Stack.Screen name="Lottie" component={SplashScreen}  
           options={{ headerShown: false }}
           />
+
+          {/* <Stack.Screen name="Welcome" component={Welcome}  
+          options={{ headerShown: false }}
+          /> */}
           <Stack.Screen name="RegisterScreen" component={Register} 
            options={{ headerTitle: "Register", headerShown: false }}
           />
           <Stack.Screen name="LoginScreen" component={Login} 
            options={{ headerTitle: "Login", headerShown: false }}
           />
+          <Stack.Screen name="LoginSuccess" component={LoginSuccess} 
+           options={{ headerTitle: "Login", headerShown: false }}
+          />
           <Stack.Screen name="HomePageScreen" component={TabNavigator} 
            options={{ headerTitle: "HomePage", headerShown: false }}
+          />
+          <Stack.Screen name="ChatScreen" component={ChatScreen} 
+           options={{ headerTitle: "Chat", headerShown: true }}
           />
           <Stack.Screen name="ProfileScreen" component={TabNavigator} 
            options={{ headerTitle: "Profile", headerShown: false }}

@@ -21,7 +21,7 @@ export const register = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const resp = await axios.post(
-        "http://192.168.215.12:5000/api/auth/register",
+        "http://192.168.161.12:5000/api/auth/register",
         {
           email: values.email,
           firstName: values.firstName,
@@ -41,7 +41,7 @@ export const login = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const resp = await axios.post(
-        "http:/192.168.215.12:5000/api/auth/login",
+        "http://192.168.195.12:5000/api/auth/login",
         {
           email: values.email,
           password: values.password,
